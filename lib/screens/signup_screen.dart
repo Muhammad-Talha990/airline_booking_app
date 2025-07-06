@@ -1,35 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'signup_screen.dart';
+import 'login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   bool _isLoading = false;
   String? _error;
 
-  void _loginUser() async {
+  void _signupUser() async {
     setState(() {
       _isLoading = true;
       _error = null;
     });
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      // Login successful
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login Successful')),
+        SnackBar(content: Text('Account Created! Please Login')),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => LoginScreen()),
       );
     } on FirebaseAuthException catch (e) {
       setState(() => _error = e.message);
@@ -41,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: Text('Sign Up')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -63,17 +66,17 @@ class _LoginScreenState extends State<LoginScreen> {
             _isLoading
                 ? CircularProgressIndicator()
                 : ElevatedButton(
-                    onPressed: _loginUser,
-                    child: Text('Login'),
+                    onPressed: _signupUser,
+                    child: Text('Sign Up'),
                   ),
             TextButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (_) => SignupScreen()),
+                  MaterialPageRoute(builder: (_) => LoginScreen()),
                 );
               },
-              child: Text("Don't have an account? Sign up"),
+              child: Text('Already have an account? Log in'),
             )
           ],
         ),

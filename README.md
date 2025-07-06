@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # airline_booking_app
 
 A new Flutter project.
@@ -14,3 +15,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# airline_booking_app
+>>>>>>> cca9d81e7e77e6996a30ecfea27a6d3a7b1c5350
